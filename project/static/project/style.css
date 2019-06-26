@@ -11,3 +11,11 @@ color:#ffffff;
 .blog-post p{
 text-align:justify;
 }
+.form-login{
+margin-top:15% ;
+margin-bottom:15%;
+width:50%;
+border:1px solid #ccc;
+border-radius:5px;
+padding:25px
+}
