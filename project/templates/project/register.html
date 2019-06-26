@@ -1,7 +1,7 @@
 {% extends 'project/base.html'%}
 {% block title%}<title>Contact Us</title>{% endblock %}
 {% block body%}
-    <div class="container my-4">
+    <div class="container my-4 py-4">
         <h2 class="mb-4">Register</h2>
 
         <form method="post" action="{% url 'register'%}">{%csrf_token%}
