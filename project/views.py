@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login, authenticate,logout
+from django.contrib.auth import login, authenticate,logout
 from django.shortcuts import render, redirect , HttpResponse
 from django.contrib import messages
 from .models import Project,Contact
@@ -12,7 +12,6 @@ def details(request,project_id):
     project=Project.objects.filter(id=project_id)
     return render(request,'project/details.html',{'project':project[0]})
 
-@login_required
 def about(request):
     return render(request,'project/about.html')
 
@@ -38,23 +37,24 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            return redirect('home')
     else:
         form = RegisterForm()
     return render(request, 'project/register.html', {'form': form})
 
-def login(request):
+def login_view(request):
     if request.method=='POST':
         user = request.POST.get('username')
         pwd = request.POST.get('password')
         user=authenticate(username = user,password = pwd)
         if user is not None:
-            auth_login(request, user)
+            login(request, user)
             return redirect('home')
         else:
             return HttpResponse('Not Authenticate')
-    return render(request,'project/login.html')
+    return render(request,'project/login_view.html')
 
 def logout_view(request):
     logout(request)
     return redirect('home')
+
