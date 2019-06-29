@@ -1,0 +1,26 @@
+.about p{
+text-align:justify;
+}
+.footer{
+background:#000000;
+padding:15px;
+}
+.footer .text-center{
+color:#ffffff;
+}
+.blog-post p{
+text-align:justify;
+}
+.form-login{
+margin-top:15% ;
+margin-bottom:15%;
+width:50%;
+border:1px solid #ccc;
+border-radius:5px;
+padding:25px
+}
+.form-comman{
+margin-top:2% ;
+margin-bottom:11%;
+padding:25px
+}

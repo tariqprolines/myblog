@@ -1,13 +1,16 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate,logout
-from django.shortcuts import render, redirect , HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
-from .models import Project,Contact
-from .forms import RegisterForm
+from .models import Project,Contact,User
+from datetime import date
 
 def home(request):
-    projects=Project.objects.all()
+    projects=Project.objects.all()[:9]
     return render(request,'project/index.html',{'projects':projects})
+
+def projectlist(request):
+    pass
+
 def details(request,project_id):
     project=Project.objects.filter(id=project_id)
     return render(request,'project/details.html',{'project':project[0]})
@@ -24,37 +27,24 @@ def contact(request):
         contact.message=request.POST.get('message','')
         contact.save()
         messages.success(request,'Your query has been submitted successfully, We will contact you shortly!')
-        return redirect('/contact')
+        return redirect('contact')
     else:
         return render(request,'project/contact.html');
 
-def register(request):
+@login_required(login_url='/accounts/login/')
+def postproject(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = RegisterForm()
-    return render(request, 'project/register.html', {'form': form})
+        project=Project()
+        project.title=request.POST.get('title')
+        project.description = request.POST.get('description')
+        project.image=request.FILES['projectfile']
+        project.pub_date=date.today().strftime("%Y-%m-%d");
+        project.owner=request.user
+        project.save()
+        messages.success(request, 'Your Project has been submitted successfully!')
+        return redirect('postproject')
+    return render(request, 'project/postproject.html')
 
-def login_view(request):
-    if request.method=='POST':
-        user = request.POST.get('username')
-        pwd = request.POST.get('password')
-        user=authenticate(username = user,password = pwd)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            return HttpResponse('Not Authenticate')
-    return render(request,'project/login_view.html')
 
-def logout_view(request):
-    logout(request)
-    return redirect('home')
+
 

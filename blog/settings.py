@@ -38,8 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'project.apps.ProjectConfig',#new
-    'crispy_forms'
+    'accounts.apps.AccountsConfig',#new
+    'crispy_forms',
+    'ckeditor',
 ]
+
+# Ck editor setting
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -132,3 +148,7 @@ STATIC_ROOT= os.path.join(BASE_DIR,'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR,'media')
+
+# Email testing
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only

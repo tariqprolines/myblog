@@ -1,0 +1,44 @@
+{% extends 'project/base.html'%}
+{% block title%}<title>Register</title>{% endblock %}
+{% block body%}
+{% load static %}
+    <div class="container form-comman">
+        <h2>Post Project</h2>
+        <form method="post" action="{% url 'postproject'%}" enctype="multipart/form-data">{%csrf_token%}
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show {{ message.tags }}" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+             {% endfor %}
+            {% endif %}
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+           <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" name="projectfile">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+           </div>
+          <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        </form>
+    </div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script>
+    $(function () {
+        CKEDITOR.replace('description', {
+            toolbar: 'Basic'
+        });
+    });
+</script>
+{% endblock %}
+

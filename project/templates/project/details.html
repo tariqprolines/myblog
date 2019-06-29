@@ -12,9 +12,9 @@
       <div class="blog-post">
         <p style="text-align:center"><img src="/media/{{project.image}}"> </p>
         <h2 class="blog-post-title">{{project.title}}</h2>
-        <p class="blog-post-meta">{{project.pub_date}} by <a href="#">Tariq</a></p>
+        <p class="blog-post-meta">{{project.pub_date}} by <a href="#">{{project.owner}}</a></p>
 
-        <p>{{project.description}}</p>
+        <p>{{project.description|safe}}</p>
       </div><!-- /.blog-post -->
 
     </div><!-- /.blog-main -->
