@@ -1,15 +1,26 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Project,Contact,User
+from .models import Project,Contact
 from datetime import date
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     projects=Project.objects.all()[:9]
     return render(request,'project/index.html',{'projects':projects})
 
 def projectlist(request):
-    pass
+    project_list=Project.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(project_list, 9)
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        projects = paginator.page(1)
+    except EmptyPage:
+        projects = paginator.page(paginator.num_pages)
+    return render(request,'project/projectlist.html',{'projects':projects})
 
 def details(request,project_id):
     project=Project.objects.filter(id=project_id)

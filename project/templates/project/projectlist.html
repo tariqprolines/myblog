@@ -1,18 +1,15 @@
 {%extends 'project/base.html'%}
 {% block title%}<title>Home - Mohd Tariq Khan</title>{%endblock%}
 {% block body%}
-{% load static %}
 <main role="main">
   <section class="jumbotron text-center">
     <div class="container">
-      <p><img src="{%static 'project/user.png'%}" class="img-fluid"></p>
-      <h1 class="jumbotron-heading">Mohd Tariq</h1>
-      <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+        <h3>Project List</h3>
     </div>
   </section>
 
     <div class="container">
-      <div class="row py-5">
+      <div class="row my-5">
         {% for project in projects %}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
@@ -29,9 +26,31 @@
           </div>
         </div>
          {% endfor %}
+
       </div>
 
-    </div>
+        {% if projects.has_other_pages %}
+  <ul class="pagination">
+    {% if projects.has_previous %}
+      <li><a href="?page={{ projects.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in projects.paginator.page_range %}
+      {% if projects.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if projects.has_next %}
+      <li><a href="?page={{ projects.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+     </div>
 
 </main>
 {% endblock %}

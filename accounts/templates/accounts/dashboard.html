@@ -1,0 +1,85 @@
+{%extends 'project/base.html'%}
+{% block title%}<title>Home - Mohd Tariq Khan</title>{%endblock%}
+{% block body%}
+{% load static %}
+<main role="main">
+    <section class="jumbotron text-center">
+    <div class="container">
+        <h3>Dashboard</h3>
+    </div>
+  </section>
+    <div class="container about">
+        <div class="row my-5">
+
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</a>
+      <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <main role="main">
+  <section class="jumbotron text-center">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show {{ message.tags }}" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+             {% endfor %}
+            {% endif %}
+        <h3>My Project List</h3>
+    </div>
+  </section>
+
+    <div class="container">
+      <div class="row my-5">
+        {%if projects %}
+        {% for project in projects %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img src="/media/{{project.image}}" width="100%" height="225" class="img-fluid">
+            <div class="card-body">
+              <p class="card-text">{{project.title}}</p>
+                <p class="text-muted"><small>{{project.pub_date}}</small></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a href="/{{project.id}}" class="btn btn-sm btn-outline-secondary">View</a>
+                  <a href="{% url 'dashboard'%}{{project.id}}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                  <a href="/{{project.id}}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                </div>
+                <!--<small class="text-muted">{{project.pub_date}}</small>-->
+              </div>
+            </div>
+          </div>
+        </div>
+         {% endfor %}
+       {% else %}
+          Sorry, there are no Project.
+       {% endif %}
+      </div>
+
+    </div>
+
+</main>
+      </div>
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+    </div>
+  </div>
+</div>
+
+
+
+        </div>
+    </div>
+</main>
+{% endblock %}
