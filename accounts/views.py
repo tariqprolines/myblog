@@ -3,7 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
-from .forms import RegisterForm
+from .forms import RegisterForm, ProfileForm , UserForm
 from project.models import Project
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -72,7 +72,6 @@ def dashboard(request):
 
     projects=Project.objects.filter(owner_id=request.user.id)
     user=get_object_or_404(User,pk=request.user.id)
-
     return render(request,'accounts/dashboard.html',{'projectall':projectall,'projects':projects,'user':user})
 
 @login_required(login_url='/accounts/login/')
@@ -98,5 +97,22 @@ def deleteproject(request,p_id):
         messages.success(request, 'Your project has been deleted successfully!')
         return redirect('dashboard')
 
+@login_required(login_url='/accounts/login/')
 def editprofile(request):
-    return HttpResponse("Profile Edit Page")
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('editprofile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'accounts/profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
