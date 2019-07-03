@@ -22,6 +22,7 @@ class Profile(models.Model):
     )
 
     user= models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar= models.ImageField(upload_to='users/images', null=True, blank=True)
     phone= models.CharField(max_length=20 , default='')
     profession= models.CharField(max_length=20, default='')
     skills= models.CharField(max_length=50, null=True, blank= True)

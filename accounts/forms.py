@@ -28,4 +28,4 @@ class ProfileForm(forms.ModelForm):
     skills= forms.MultipleChoiceField(choices=SKILLS_CHOICES, widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Profile
-        fields = ('phone', 'profession', 'skills', 'experience', 'hourly_rate', 'total_project', 'english_level', 'availability', 'bio')
+        fields = ('avatar','phone', 'profession', 'skills', 'experience', 'hourly_rate', 'total_project', 'english_level', 'availability', 'bio')
